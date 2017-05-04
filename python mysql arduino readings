@@ -1,0 +1,20 @@
+import serial #pyserial import
+import MySQLdb #install mysqldb with python library
+import requests
+db = MySQLdb.connect("127.0.0.1","root","root123","hc" )
+i = 'P1231'
+cursor = db.cursor()
+
+while(1):
+	
+	ser = serial.Serial('/dev/ttyACM2',9600) #change arduino port
+	response = requests.get('http://192.168.43.65:8080') # change ip address
+	var = str(ser.readline())
+	x = response.text
+	a,b,c=var.split(',')
+	d= x[-5:]
+	sql = "INSERT INTO `msheet` (`pid`, `ptemcel`, `ptemp`, `pulse`, `rtemp`) VALUES ('%s', '%s', '%s', '%s', '%s')" %(i,a,b,c,d)
+	cursor.execute(sql)
+	cursor.execute(sql)
+	db.commit()
+	db.close()
