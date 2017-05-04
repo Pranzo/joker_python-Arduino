@@ -1,0 +1,14 @@
+import serial
+import requests
+while(1):
+	
+	ser = serial.Serial('/dev/ttyACM1',9600)
+	response = requests.get('http://192.168.43.65:8080')
+	var = str(ser.readline())
+	x = response.text
+	a,b,c=var.split(',')
+	d= x[-5:]
+	print(a)
+	print(b)
+	print(c)
+	print(d)
